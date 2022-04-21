@@ -33,12 +33,15 @@ class LineSearchMinimization:
         iter = 0
         while iter < max_iter:
 
-            if abs(x - x_prev) < param_tol:
+            if iter != 0 and sum(abs(x - x_prev)) < param_tol:
                 return x, f_x, x_s, obj_values, True
 
             p = np.linalg.solve(h_x, -g_x)
 
-            if f_prev - f_x < obj_tol or (p.transpose * h_x * p) ** 0.5 < obj_tol:
+            if iter != 0 and (
+                f_prev - f_x < obj_tol
+                or 0.5 * ((np.matmul(p.transpose(), np.matmul(h_x, p))) ** 2) < obj_tol
+            ):
                 return x, f_x, x_s, obj_values, True
 
             if step_len == "wolfe":
@@ -48,7 +51,7 @@ class LineSearchMinimization:
                 alpha = step_len
 
             x_prev = x
-            f_prev = f
+            f_prev = f_x
 
             x = x + alpha * p
             f_x, g_x, h_x = f(x, True)
@@ -56,6 +59,8 @@ class LineSearchMinimization:
 
             x_s.append(x)
             obj_values.append(f_x)
+
+            iter += 1
 
         return x, f_x, x_s, obj_values, False
 
@@ -75,10 +80,10 @@ class LineSearchMinimization:
         iter = 0
         while iter < max_iter:
 
-            if abs(x - x_prev) < param_tol:
+            if iter != 0 and sum(abs(x - x_prev)) < param_tol:
                 return x, f_x, x_s, obj_values, True
 
-            if f_prev - f_x < obj_tol:
+            if iter != 0 and f_prev - f_x < obj_tol:
                 return x, f_x, x_s, obj_values, True
 
             p = -g_x
@@ -89,7 +94,7 @@ class LineSearchMinimization:
                 alpha = step_len
 
             x_prev = x
-            f_prev = f
+            f_prev = f_x
 
             x = x + alpha * p
             f_x, g_x = f(x, False)
@@ -99,15 +104,16 @@ class LineSearchMinimization:
             x_s.append(x)
             obj_values.append(f_x)
 
+            iter += 1
+
         return x, f_x, x_s, obj_values, False
 
     def __wolfe(self, f, p, x) -> int:
         alpha = 1
 
-        while (
-            f(x + alpha * p)[0]
-            > f(x, False)[0] + self.WOLFE_COND_COSNT * alpha * f(x, False)[1] * p
-        ):
+        while f(x + alpha * p, False)[0] > f(x, False)[
+            0
+        ] + self.WOLFE_COND_COSNT * alpha * np.matmul(f(x, False)[1].transpose(), p):
             alpha = alpha * self.BACKTRACKING_CONST
 
         return alpha

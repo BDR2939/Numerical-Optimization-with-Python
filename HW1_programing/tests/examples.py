@@ -3,9 +3,9 @@ from math import e
 
 
 def circles(x, flag):
-    Q = [[1, 0][0, 1]]
+    Q = np.array([[1, 0], [0, 1]])
 
-    value = np.matmul(np.matmul(x.transpose, Q), x)
+    value = np.matmul(x.transpose(), np.matmul(Q, x))
     grad = 2 * np.matmul(Q, x)
     if flag:
         return value, grad, 2 * Q
@@ -14,9 +14,9 @@ def circles(x, flag):
 
 
 def ellipses(x, flag):
-    Q = [[1, 0][0, 100]]
+    Q = np.array([[1, 0], [0, 100]])
 
-    value = np.matmul(np.matmul(x.transpose, Q), x)
+    value = np.matmul(x.transpose(), np.matmul(Q, x))
     grad = 2 * np.matmul(Q, x)
     if flag:
         return value, grad, 2 * Q
@@ -25,11 +25,11 @@ def ellipses(x, flag):
 
 
 def rotated_ellipses(x, flag):
-    side = [[np.sqrt(3) / 2, -0.5][0.5, np.sqrt(3) / 2]]
-    Q = [[100, 0][0, 1]]
-    Q = np.matmul(np.matmul(side.transpose, Q), side)
+    side = np.array([[np.sqrt(3) / 2, -0.5], [0.5, np.sqrt(3) / 2]])
+    Q = np.array([[100, 0], [0, 1]])
+    Q = np.matmul(side.transpose(), np.matmul(Q, side))
 
-    value = np.matmul(np.matmul(x.transpose, Q), x)
+    value = np.matmul(x.transpose(), np.matmul(Q, x))
     grad = 2 * np.matmul(Q, x)
     if flag:
         return value, grad, 2 * Q
