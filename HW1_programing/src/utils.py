@@ -35,6 +35,7 @@ def plot_contours(f, title, xy_gd = None, xy_newton = None):
 
     fig,ax = plt.subplots(1,1)
     cp = ax.contour(X, Y, Z)
+    ax.clabel(cp, inline=True, fontsize=10)
     if xy_gd is not None:
         ax.plot(x_gd, y_gd, label = 'Gradient descent steps', color = 'r')
     if xy_newton is not None:
@@ -54,4 +55,6 @@ def plot_iterations(title, obj_values_gd = None, obj_values_newton = None):
 
     ax.legend()
     ax.set_title(title)
+    ax.set_xlabel('# iterations')
+    ax.set_ylabel('Objective function value')
     plt.show()
