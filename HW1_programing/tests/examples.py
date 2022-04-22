@@ -45,7 +45,7 @@ def rosenbrock(x, flag):
 
     if flag:
         hess = np.array(
-            [[-400 * x[1] + 1200 * x[0] ** 2 - 2, -400 * x[0]], [-400 * x[0], 200]]
+            [[-400 * x[1] + 1200 * x[0] ** 2 + 2, -400 * x[0]], [-400 * x[0], 200]]
         )
         return value, grad.transpose(), hess
 
