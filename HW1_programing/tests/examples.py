@@ -39,20 +39,24 @@ def rotated_ellipses(x, flag):
 
 def rosenbrock(x, flag):
     value = 100 * ((x[1] - x[0] ** 2) ** 2) + ((1 - x[0]) ** 2)
-    grad = [-400 * x[0] * (x[1] - x[0] ** 2) - 2 * (1 - x[0]), 200 * (x[1] - x[0] ** 2)]
+    grad = np.array(
+        [-400 * x[0] * (x[1] - x[0] ** 2) - 2 * (1 - x[0]), 200 * (x[1] - x[0] ** 2)]
+    )
 
     if flag:
-        hess = [[-400 * x[1] + 1200 * x[0] ** 2 - 2, -400 * x[0]], [-400 * x[0], 200]]
-        return value, grad.transpose, hess
+        hess = np.array(
+            [[-400 * x[1] + 1200 * x[0] ** 2 - 2, -400 * x[0]], [-400 * x[0], 200]]
+        )
+        return value, grad.transpose(), hess
 
-    return value, grad.transpose
+    return value, grad.transpose()
 
 
 def linear(x, flag):
-    a = [2, 9]
-    a = a.transpose
+    a = np.array([2, 9])
+    a = a.transpose()
 
-    value = a.transpose * x
+    value = a.transpose() * x
     grad = a
 
     if flag:

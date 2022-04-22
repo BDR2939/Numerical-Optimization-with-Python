@@ -20,41 +20,83 @@ class TestLineSearchMethods(unittest.TestCase):
     START_POINT = np.array([1, 1])
     ROSENBROCK_START_POINT = np.array([-1, 2])
 
-    def test_circles(self):
+    # def test_circles(self):
+    #     gd_minimizer = LineSearchMinimization("Gradient descent")
+    #     newton_minimizer = LineSearchMinimization("Newton")
+
+    #     newton_minimizer.minimize(
+    #         circles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
+
+    #     gd_minimizer.minimize(
+    #         circles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
+
+    # def test_ellipses(self):
+    #     gd_minimizer = LineSearchMinimization("Gradient descent")
+    #     newton_minimizer = LineSearchMinimization("Newton")
+
+    #     newton_minimizer.minimize(
+    #         ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
+
+    #     gd_minimizer.minimize(
+    #         ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
+
+    # def test_rotated_ellipses(self):
+    #     gd_minimizer = LineSearchMinimization("Gradient descent")
+    #     newton_minimizer = LineSearchMinimization("Newton")
+
+    #     newton_minimizer.minimize(
+    #         rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
+
+    #     gd_minimizer.minimize(
+    #         rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
+
+    def test_rosenbrock(self):
         gd_minimizer = LineSearchMinimization("Gradient descent")
         newton_minimizer = LineSearchMinimization("Newton")
 
         newton_minimizer.minimize(
-            circles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+            rosenbrock,
+            self.ROSENBROCK_START_POINT.transpose(),
+            "wolfe",
+            10e-12,
+            10e-8,
+            100,
         )
 
         gd_minimizer.minimize(
-            circles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+            rosenbrock,
+            self.ROSENBROCK_START_POINT.transpose(),
+            "wolfe",
+            10e-12,
+            10e-8,
+            10000,
         )
 
-    def test_ellipses(self):
-        gd_minimizer = LineSearchMinimization("Gradient descent")
-        newton_minimizer = LineSearchMinimization("Newton")
+    # def test_linear(self):
+    #     gd_minimizer = LineSearchMinimization("Gradient descent")
+    #     newton_minimizer = LineSearchMinimization("Newton")
 
-        newton_minimizer.minimize(
-            ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
-        )
+    #     gd_minimizer.minimize(
+    #         linear, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
 
-        gd_minimizer.minimize(
-            ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
-        )
+    # def test_triangles(self):
+    #     gd_minimizer = LineSearchMinimization("Gradient descent")
+    #     newton_minimizer = LineSearchMinimization("Newton")
 
-    def test_rotated_ellipses(self):
-        gd_minimizer = LineSearchMinimization("Gradient descent")
-        newton_minimizer = LineSearchMinimization("Newton")
+    #     newton_minimizer.minimize(
+    #         triangles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    #     )
 
-        newton_minimizer.minimize(
-            rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
-        )
-
-        gd_minimizer.minimize(
-            rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
-        )
+    #     gd_minimizer.minimize(
+    #         triangles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
+    # )
 
 
 if __name__ == "__main__":
