@@ -56,13 +56,13 @@ def linear(x, flag):
     a = np.array([2, 9])
     a = a.transpose()
 
-    value = a.transpose() * x
+    value = np.matmul(a.transpose(), x)
     grad = a
 
     if flag:
         return value, grad, 0
 
-    return value, flag
+    return value, grad
 
 
 def triangles(x, flag):
@@ -71,4 +71,10 @@ def triangles(x, flag):
     third_pow = -x[0] - 0.1
 
     value = e ** first_pow + e ** second_pow + e ** third_pow
-    grad = [e ** x[0], 3 * e ** (3 * x[1]) - 3 * e ** (-3 * x[1])]
+    grad = np.array([2 * e ** x[0] - e ** -x[0], 3 * e ** (3 * x[1]) - 3 * e ** (-3 * x[1])])
+
+    if flag:
+        hess = np.array([[e * e ** x[0] + e ** -x[0], 0], [0, 9 * e ** (3 * x[1]) + 9 * e ** (-3 * x[1])]])
+        return value, grad.transpose(), hess
+    
+    return value, grad.transpose()
