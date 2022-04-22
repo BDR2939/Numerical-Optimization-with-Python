@@ -37,10 +37,10 @@ class LineSearchMinimization:
                 return x, f_x, x_s, obj_values, True
 
             p = np.linalg.solve(h_x, -g_x)
-
+            _lambda = np.matmul(p.transpose(), np.matmul(h_x, p)) ** 0.5
             if iter != 0 and (
                 f_prev - f_x < obj_tol
-                or 0.5 * ((np.matmul(p.transpose(), np.matmul(h_x, p))) ** 2) < obj_tol
+                or 0.5 * (_lambda ** 2) < obj_tol
             ):
                 return x, f_x, x_s, obj_values, True
 
