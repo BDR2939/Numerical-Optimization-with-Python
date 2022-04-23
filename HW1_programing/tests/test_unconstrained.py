@@ -68,8 +68,8 @@ class TestLineSearchMethods(unittest.TestCase):
         )
         print(f'point of convergence - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}')
 
-        plot_contours(rotated_ellipses, 'Convergence over roatated elliptical contour lines', x_s_gd, x_s_newton,)
-        plot_iterations('Objective function values of quadratic function 3 - Roatated Elliptical contour lines', obj_values_gd, obj_values_newton)
+        plot_contours(rotated_ellipses, 'Convergence over rotated elliptical contour lines', x_s_gd, x_s_newton,)
+        plot_iterations('Objective function values of quadratic function 3 - Rotated Elliptical contour lines', obj_values_gd, obj_values_newton)
 
 
     def test_rosenbrock(self):
