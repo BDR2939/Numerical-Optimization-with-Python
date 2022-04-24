@@ -11,14 +11,6 @@ class LineSearchMinimization:
 
     def minimize(self, f, x0, step_len, obj_tol, param_tol, max_iter):
 
-        if self.method == "Newton":
-            return self.__minimize_newton(f, x0, step_len, obj_tol, param_tol, max_iter)
-
-        else:
-            return self.__minimize_gd(f, x0, step_len, obj_tol, param_tol, max_iter)
-
-    def __minimize_newton(self, f, x0, step_len, obj_tol, param_tol, max_iter):
-
         x = x0
         f_x, g_x, h_x = f(x, True)
 
@@ -36,12 +28,16 @@ class LineSearchMinimization:
             if iter != 0 and sum(abs(x - x_prev)) < param_tol:
                 return x, f_x, x_s, obj_values, True
 
-            p = np.linalg.solve(h_x, -g_x)
-            _lambda = np.matmul(p.transpose(), np.matmul(h_x, p)) ** 0.5
-            if iter != 0 and (
-                f_prev - f_x < obj_tol
-                or 0.5 * (_lambda ** 2) < obj_tol
-            ):
+            if self.method == "Newton":
+                p = np.linalg.solve(h_x, -g_x)
+                _lambda = np.matmul(p.transpose(), np.matmul(h_x, p)) ** 0.5
+                if 0.5 * (_lambda ** 2) < obj_tol:
+                    return x, f_x, x_s, obj_values, True
+
+            else:
+                p = -g_x
+
+            if iter != 0 and (f_prev - f_x < obj_tol):
                 return x, f_x, x_s, obj_values, True
 
             if step_len == "wolfe":
@@ -54,50 +50,10 @@ class LineSearchMinimization:
             f_prev = f_x
 
             x = x + alpha * p
-            f_x, g_x, h_x = f(x, True)
-            print(f"i = {iter + 1}, x{iter + 1} = {x}, f(x{iter + 1}) = {f_x}")
-
-            x_s.append(x)
-            obj_values.append(f_x)
-
-            iter += 1
-
-        return x, f_x, x_s, obj_values, False
-
-    def __minimize_gd(self, f, x0, step_len, obj_tol, param_tol, max_iter):
-
-        x = x0
-        f_x, g_x = f(x, False)
-
-        print(f"i = 0, x0 = {x}, f(x0) = {f_x}")
-
-        x_prev = x
-        f_prev = f_x
-
-        x_s = [x0]
-        obj_values = [f_x]
-
-        iter = 0
-        while iter < max_iter:
-
-            if iter != 0 and sum(abs(x - x_prev)) < param_tol:
-                return x, f_x, x_s, obj_values, True
-
-            if iter != 0 and f_prev - f_x < obj_tol:
-                return x, f_x, x_s, obj_values, True
-
-            p = -g_x
-            if step_len == "wolfe":
-                alpha = self.__wolfe(f, p, x)
-
+            if self.method == "Newton":
+                f_x, g_x, h_x = f(x, True)
             else:
-                alpha = step_len
-
-            x_prev = x
-            f_prev = f_x
-
-            x = x + alpha * p
-            f_x, g_x = f(x, False)
+                f_x, g_x = f(x, False)
 
             print(f"i = {iter + 1}, x{iter + 1} = {x}, f(x{iter + 1}) = {f_x}")
 
