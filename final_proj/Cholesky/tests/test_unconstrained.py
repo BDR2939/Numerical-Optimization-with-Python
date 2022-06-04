@@ -3,9 +3,9 @@ import sys
 # sys.path.append("C:/Projects/HW/Numerical-Optimization-with-Python")
 sys.path.append("/Users/ronibendom/Master/Numerical Optimization with Python/")
 
-from final_proj.src.unconstrained_min import LineSearchMinimization
-from final_proj.src.utils import plot_contours, plot_iterations
-from final_proj.tests.examples import (
+from final_proj.Cholesky.src.unconstrained_min import LineSearchMinimization
+from final_proj.Cholesky.src.utils import plot_contours, plot_iterations
+from final_proj.Cholesky.tests.examples import (
     circles,
     ellipses,
     rotated_ellipses,

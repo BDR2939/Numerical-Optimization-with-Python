@@ -4,8 +4,7 @@ import numpy as np
 
 sys.path.append("/Users/ronibendom/Master/Numerical Optimization with Python/")
 
-from final_proj.src.Cholesky_decomp import cholesky_decomp
-
+from final_proj.Cholesky.src.Cholesky_decomp import cholesky_decomp
 
 class LineSearchMinimization:
 
