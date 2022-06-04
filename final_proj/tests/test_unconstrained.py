@@ -10,7 +10,6 @@ from final_proj.tests.examples import (
     ellipses,
     rotated_ellipses,
     rosenbrock,
-    linear,
     triangles,
 )
 
@@ -19,7 +18,7 @@ import numpy as np
 
 
 class TestLineSearchMethods(unittest.TestCase):
-    START_POINT = np.array([1, 1])
+    START_POINT = np.array([1, 1], dtype=np.float64)
     ROSENBROCK_START_POINT = np.array([-1, 2], dtype=np.float64)
     gd_minimizer = LineSearchMinimization("Gradient descent")
     newton_minimizer = LineSearchMinimization("Newton")
@@ -37,8 +36,9 @@ class TestLineSearchMethods(unittest.TestCase):
             circles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
+            f"point of convergence, circles functoin - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
         )
+        print(f"stoped after {len(x_s_newton) - 1} steps")
 
         (
             x_quasi_newton,
@@ -50,15 +50,17 @@ class TestLineSearchMethods(unittest.TestCase):
             circles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
+            f"point of convergence, circles functoin - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
         )
+        print(f"stoped after {len(x_s_quasi_newton) - 1} steps")
 
         x_gd, f_x_gd, x_s_gd, obj_values_gd, success_gd = self.gd_minimizer.minimize(
             circles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
+            f"point of convergence, circles functoin - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
         )
+        print(f"stoped after {len(x_s_gd) - 1} steps")
 
         plot_contours(
             circles, "Convergence over circular contour lines", x_s_gd, x_s_newton, x_s_quasi_newton
@@ -81,8 +83,9 @@ class TestLineSearchMethods(unittest.TestCase):
             ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
+            f"point of convergence, ellipses function - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
         )
+        print(f"stoped after {len(x_s_newton) - 1} steps")
 
         (
             x_quasi_newton,
@@ -91,19 +94,20 @@ class TestLineSearchMethods(unittest.TestCase):
             obj_values_quasi_newton,
             success_quasi_newton,
         ) = self.quasi_newton_minimizer.minimize(
-            ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-12, 100
+            ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-30, 100
         )
         print(
-            f"point of convergence - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
+            f"point of convergence, ellipses function - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
         )
-
+        print(f"stoped after {len(x_s_quasi_newton) - 1} steps")
 
         x_gd, f_x_gd, x_s_gd, obj_values_gd, success_gd = self.gd_minimizer.minimize(
             ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
+            f"point of convergence, ellipses function - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
         )
+        print(f"stoped after {len(x_s_gd) - 1} steps")
 
         plot_contours(
             ellipses, "Convergence over elliptical contour lines", x_s_gd, x_s_newton, x_s_quasi_newton
@@ -126,8 +130,9 @@ class TestLineSearchMethods(unittest.TestCase):
             rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
+            f"point of convergence, rotated ellipses function - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
         )
+        print(f"stoped after {len(x_s_newton) - 1} steps")
 
         (
             x_quasi_newton,
@@ -136,19 +141,20 @@ class TestLineSearchMethods(unittest.TestCase):
             obj_values_quasi_newton,
             success_quasi_newton,
         ) = self.quasi_newton_minimizer.minimize(
-            rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-12, 100
+            rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-30, 100
         )
         print(
-            f"point of convergence - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
+            f"point of convergence, rotated ellipses function - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
         )
-
+        print(f"stoped after {len(x_s_quasi_newton) - 1} steps")
 
         x_gd, f_x_gd, x_s_gd, obj_values_gd, success_gd = self.gd_minimizer.minimize(
             rotated_ellipses, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
+            f"point of convergence, rotated ellipses function - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
         )
+        print(f"stoped after {len(x_s_gd) - 1} steps")
 
         plot_contours(
             rotated_ellipses,
@@ -180,8 +186,9 @@ class TestLineSearchMethods(unittest.TestCase):
             100,
         )
         print(
-            f"point of convergence - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
+            f"point of convergence, rosenbrock function - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
         )
+        print(f"stoped after {len(x_s_newton) - 1} steps")
 
         (
             x_quasi_newton,
@@ -190,12 +197,17 @@ class TestLineSearchMethods(unittest.TestCase):
             obj_values_quasi_newton,
             success_quasi_newton,
         ) = self.quasi_newton_minimizer.minimize(
-            rosenbrock, self.ROSENBROCK_START_POINT.transpose(), "wolfe", 10e-12, 10e-12, 10000
+            rosenbrock,
+            self.ROSENBROCK_START_POINT.transpose(),
+            "wolfe",
+            10e-12,
+            10e-8,
+            10000
         )
         print(
-            f"point of convergence - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
+            f"point of convergence, rosenbrock function - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
         )
-
+        print(f"stoped after {len(x_s_quasi_newton) - 1} steps")
 
         x_gd, f_x_gd, x_s_gd, obj_values_gd, success_gd = self.gd_minimizer.minimize(
             rosenbrock,
@@ -206,8 +218,9 @@ class TestLineSearchMethods(unittest.TestCase):
             10000,
         )
         print(
-            f"point of convergence - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
+            f"point of convergence, rosenbrock function - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
         )
+        print(f"stoped after {len(x_s_gd) - 1} steps")
 
         plot_contours(
             rosenbrock,
@@ -223,17 +236,6 @@ class TestLineSearchMethods(unittest.TestCase):
             obj_values_quasi_newton
         )
 
-    # def test_linear(self):
-    #     x_gd, f_x_gd, x_s_gd, obj_values_gd, success_gd = self.gd_minimizer.minimize(
-    #         linear, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
-    #     )
-    #     print(
-    #         f"point of convergence - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
-    #     )
-
-    #     plot_contours(linear, "Convergence over linear function contour lines", x_s_gd)
-    #     plot_iterations("Objective function values of linear function", obj_values_gd)
-
     def test_triangles(self):
         (
             x_newton,
@@ -245,8 +247,9 @@ class TestLineSearchMethods(unittest.TestCase):
             triangles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
+            f"point of convergence, triangles function - newton: {x_newton}, value: {f_x_newton}, success: {success_newton}"
         )
+        print(f"stoped after {len(x_s_newton) - 1} steps")
 
         (
             x_quasi_newton,
@@ -255,18 +258,20 @@ class TestLineSearchMethods(unittest.TestCase):
             obj_values_quasi_newton,
             success_quasi_newton,
         ) = self.quasi_newton_minimizer.minimize(
-            triangles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-12, 100
+            triangles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-30, 100
         )
         print(
-            f"point of convergence - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
+            f"point of convergence, triangles function - quasi newton: {x_quasi_newton}, value: {f_x_quasi_newton}, success: {success_quasi_newton}"
         )
+        print(f"stoped after {len(x_s_quasi_newton) - 1} steps")
 
         x_gd, f_x_gd, x_s_gd, obj_values_gd, success_gd = self.gd_minimizer.minimize(
             triangles, self.START_POINT.transpose(), "wolfe", 10e-12, 10e-8, 100
         )
         print(
-            f"point of convergence - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
+            f"point of convergence, triangles function - GD: {x_gd}, value: {f_x_gd}, success: {success_gd}"
         )
+        print(f"stoped after {len(x_s_gd) - 1} steps")
 
         plot_contours(
             triangles,

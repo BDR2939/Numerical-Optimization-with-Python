@@ -28,7 +28,3 @@ def cholesky_decomp(A):
                 L[i, j] = (A[i, j] - sum) / L[j, j]
 
     return L
-
-
-# A = np.array([[4, 12, -16], [12, 37, -43], [-16, -43, 98]])
-# print(cholesky_decomp(A))

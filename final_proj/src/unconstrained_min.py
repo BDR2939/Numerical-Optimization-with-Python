@@ -21,12 +21,10 @@ class LineSearchMinimization:
         if self.method == "Newton":
             f_x, g_x, h_x = f(x, True)
         elif self.method == "Quasi-Newton":
-            f_x, g_x = f(x, False)
-            B = np.eye(len(g_x))
+            f_x, g_x= f(x, False)
+            B = np.identity(len(g_x))
         else:
             f_x, g_x = f(x, False)
-
-        # print(f"i = 0, x0 = {x}, f(x0) = {f_x}")
 
         x_prev = x
         f_prev = f_x
@@ -47,9 +45,15 @@ class LineSearchMinimization:
                     return x, f_x, x_s, obj_values, True
 
             elif self.method == "Quasi-Newton":
-                # L = cholesky_decomp(B)
-                # t = np.linalg.solve(L, -g_x)
-                p = np.linalg.solve(B, -g_x)
+                L = cholesky_decomp(B)
+                t = np.linalg.solve(L, -g_x)
+                p = np.linalg.solve(L.T, t)
+
+                # p = np.linalg.solve(B, -g_x)
+
+                _lambda = np.matmul(p.transpose(), np.matmul(B, p)) ** 0.5
+                if 0.5 * (_lambda ** 2) < obj_tol:
+                    return x, f_x, x_s, obj_values, True
 
             else:
                 p = -g_x
@@ -72,20 +76,12 @@ class LineSearchMinimization:
             elif self.method == "Quasi-Newton":
                 g_prev = g_x
                 f_x, g_x = f(x, False)
-                s = (alpha * p).reshape(-1, 1)
+                s = alpha * p
                 y = g_x - g_prev
 
-                if not(np.all(y == 0) or np.all(s == 0)):
-                    pos_term = np.matmul(y, y.transpose()) / np.matmul(y.transpose(), s)
-
-                    neg_term = np.matmul(B, np.matmul(s, np.matmul(s.transpose(), B)))
-                    neg_term = neg_term / np.matmul(s.transpose(), np.matmul(B, s))
-
-                    B = B + pos_term - neg_term
+                B = self.BFGS_update(B, s, y)
             else:
                 f_x, g_x = f(x, False)
-
-            # print(f"i = {iter + 1}, x{iter + 1} = {x}, f(x{iter + 1}) = {f_x}")
 
             x_s.append(x)
             obj_values.append(f_x)
@@ -103,3 +99,16 @@ class LineSearchMinimization:
             alpha = alpha * self.BACKTRACKING_CONST
 
         return alpha
+    
+    def BFGS_update(self, B, s, y):
+        epsilon = 1e-12
+        s = s.reshape(-1, 1)
+        y = y.reshape(-1, 1)
+
+        pos_term = np.matmul(y, y.T) / (np.matmul(y.T, s) + epsilon)
+
+        neg_term = np.matmul(B, np.matmul(s, np.matmul(s.T, B)))
+        neg_term = neg_term / (np.matmul(s.T, np.matmul(B, s)) + epsilon)
+
+        return B + pos_term - neg_term
+
