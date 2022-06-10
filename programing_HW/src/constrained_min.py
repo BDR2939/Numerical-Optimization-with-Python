@@ -29,6 +29,8 @@ class InteriorPointMinimization:
         f_x_phi, g_x_phi, h_x_phi = self.phi(ineq_constraints, x)
         t = self.T
 
+        print(f"i = 0, x0 = {x}, f(x0) = {f_x}")
+
         f_x = t * f_x + f_x_phi
         g_x = t * g_x + g_x_phi
         h_x = t * h_x + h_x_phi
@@ -47,8 +49,6 @@ class InteriorPointMinimization:
             else:
                 block_matrix = h_x
             eq_vec = np.concatenate([-g_x, np.zeros(block_matrix.shape[0] - len(g_x))])
-
-            print(f"i = 0, x0 = {x}, f(x0) = {f_x}")
 
             x_prev = x
             f_prev = f_x
@@ -86,13 +86,13 @@ class InteriorPointMinimization:
                 f_x, g_x, h_x = func(x, True)
                 f_x_phi, g_x_phi, h_x_phi = self.phi(ineq_constraints, x)
 
-                f_x = f_x + f_x_phi
-                g_x = g_x + g_x_phi
-                h_x = h_x + h_x_phi
-
                 print(
                     f"i = {inner_iter + 1}, x{inner_iter + 1} = {x}, f(x{inner_iter + 1}) = {f_x}"
                 )
+
+                f_x = t * f_x + f_x_phi
+                g_x = t * g_x + g_x_phi
+                h_x = t * h_x + h_x_phi
 
                 x_s.append(x)
                 obj_values.append(f_x)

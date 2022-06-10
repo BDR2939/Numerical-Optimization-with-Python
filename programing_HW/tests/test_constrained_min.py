@@ -43,7 +43,7 @@ class TestInteriorPointMethod(unittest.TestCase):
             10e-8,
             100,
             20,
-            10e-4,
+            10e-10,
         )
 
     # def test_lp(self):
