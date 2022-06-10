@@ -1,11 +1,11 @@
 import sys
 
-sys.path.append("C:/Projects/HW/Numerical-Optimization-with-Python")
-# sys.path.append("/Users/ronibendom/Master/Numerical Optimization with Python/")
+# sys.path.append("C:/Projects/HW/Numerical-Optimization-with-Python")
+sys.path.append("/Users/ronibendom/Master/Numerical Optimization with Python/")
 
-from HW1_programing.src.unconstrained_min import LineSearchMinimization
-from HW1_programing.src.utils import plot_contours, plot_iterations
-from HW1_programing.tests.examples import (
+from programing_HW.src.unconstrained_min import LineSearchMinimization
+from programing_HW.src.utils import plot_contours, plot_iterations
+from programing_HW.tests.examples import (
     circles,
     ellipses,
     rotated_ellipses,
