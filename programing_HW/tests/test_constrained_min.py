@@ -5,7 +5,12 @@ from token import LPAR
 sys.path.append("/Users/ronibendom/Master/Numerical Optimization with Python/")
 
 from programing_HW.src.constrained_min import InteriorPointMinimization
-from programing_HW.src.utils import plot_contours, plot_iterations, plot_feasible_set_2d
+from programing_HW.src.utils import (
+    plot_contours,
+    plot_iterations,
+    plot_feasible_set_2d,
+    plot_feasible_set_3d,
+)
 from programing_HW.tests.examples import (
     qp,
     ineq_constraint_1_1,
@@ -47,6 +52,21 @@ class TestInteriorPointMethod(unittest.TestCase):
             10e-10,
         )
 
+        print(f"Point of convergence: {x_s[-1]}")
+        print(f"Objective value at point of convergence: {qp(x_s[-1], False)[0]}")
+        print(
+            f"-x <= 0 value at point of convergence: {ineq_constraint_1_1(x_s[-1], False)[0]}"
+        )
+        print(
+            f"-y <= 0 value at point of convergence: {ineq_constraint_1_2(x_s[-1], False)[0]}"
+        )
+        print(
+            f"-z <= 0 value at point of convergence: {ineq_constraint_1_3(x_s[-1], False)[0]}"
+        )
+        print(
+            f"x + y + z = 1 value at point of convergence: {x_s[-1][0] + x_s[-1][1] + x_s[-1][2]}"
+        )
+
         plot_iterations(
             "Objective function values of qp function",
             outer_obj_values,
@@ -54,6 +74,8 @@ class TestInteriorPointMethod(unittest.TestCase):
             "Outer objective values",
             "Objective values",
         )
+
+        plot_feasible_set_3d(x_s)
 
     def test_lp(self):
         x_s, obj_values, outer_x_s, outer_obj_values = self.minimizer.minimize(
