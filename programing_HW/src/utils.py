@@ -61,19 +61,64 @@ def plot_contours(f, title, xy_gd=None, xy_newton=None):
     plt.show()
 
 
-def plot_iterations(title, obj_values_gd=None, obj_values_newton=None):
+def plot_iterations(
+    title, obj_values_1=None, obj_values_2=None, label_1=None, label_2=None
+):
 
     fig, ax = plt.subplots()
-    if obj_values_gd is not None:
-        ax.plot(range(len(obj_values_gd)), obj_values_gd, label="Gardient descent")
+    if obj_values_1 is not None:
+        ax.plot(range(len(obj_values_1)), obj_values_1, label=label_1)
 
-    if obj_values_newton is not None:
-        ax.plot(
-            range(len(obj_values_newton)), obj_values_newton, label="Newton's method"
-        )
+    if obj_values_2 is not None:
+        ax.plot(range(len(obj_values_2)), obj_values_2, label=label_2)
 
     ax.legend()
     ax.set_title(title)
     ax.set_xlabel("# iterations")
     ax.set_ylabel("Objective function value")
     plt.show()
+
+
+def plot_feasible_set_2d(path_points):
+    # plot the feasible region
+    d = np.linspace(-2, 4, 300)
+    x, y = np.meshgrid(d, d)
+    plt.imshow(
+        ((y >= -x + 1) & (y <= 1) & (x <= 2) & (y >= 0)).astype(int),
+        extent=(x.min(), x.max(), y.min(), y.max()),
+        origin="lower",
+        cmap="Greys",
+        alpha=0.3,
+    )
+
+    # plot the lines defining the constraints
+    x = np.linspace(0, 4, 2000)
+    # y >= -x + 1
+    y1 = -x + 1
+    # y <= 1
+    y2 = np.ones(x.size)
+    # y >= 0
+    y3 = np.zeros(x.size)
+
+    if path_points is not None:
+        x_path = [path_points[i][0] for i in range(len(path_points))]
+        y_path = [path_points[i][1] for i in range(len(path_points))]
+
+    # Make plot
+    plt.plot(x, y1)
+    plt.plot(x, y2)
+    plt.plot(x, y3)
+    plt.plot(np.ones(x.size) * 2, x)
+    plt.plot(
+        x_path,
+        y_path,
+        label="algorithm's path",
+        color="k",
+        marker=".",
+        linestyle="--",
+    )
+    plt.xlim(0, 3)
+    plt.ylim(0, 2)
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
+    plt.xlabel(r"$x$")
+    plt.ylabel(r"$y$")

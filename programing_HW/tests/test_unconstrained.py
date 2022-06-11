@@ -52,6 +52,8 @@ class TestLineSearchMethods(unittest.TestCase):
             "Objective function values of quadratic function 1 - Circular contour lines",
             obj_values_gd,
             obj_values_newton,
+            "Gradient descent",
+            "Newton's method",
         )
 
     def test_ellipses(self):
@@ -82,6 +84,8 @@ class TestLineSearchMethods(unittest.TestCase):
             "Objective function values of quadratic function 2 - Elliptical contour lines",
             obj_values_gd,
             obj_values_newton,
+            "Gradient descent",
+            "Newton's method",
         )
 
     def test_rotated_ellipses(self):
@@ -115,6 +119,8 @@ class TestLineSearchMethods(unittest.TestCase):
             "Objective function values of quadratic function 3 - Rotated Elliptical contour lines",
             obj_values_gd,
             obj_values_newton,
+            "Gradient descent",
+            "Newton's method",
         )
 
     def test_rosenbrock(self):
@@ -158,6 +164,8 @@ class TestLineSearchMethods(unittest.TestCase):
             "Objective function values of Rosenbrock function",
             obj_values_gd,
             obj_values_newton,
+            "Gradient descent",
+            "Newton's method",
         )
 
     def test_linear(self):
@@ -169,7 +177,11 @@ class TestLineSearchMethods(unittest.TestCase):
         )
 
         plot_contours(linear, "Convergence over linear function contour lines", x_s_gd)
-        plot_iterations("Objective function values of linear function", obj_values_gd)
+        plot_iterations(
+            "Objective function values of linear function",
+            obj_values_gd,
+            "Gradient descent",
+        )
 
     def test_triangles(self):
         (
@@ -202,6 +214,8 @@ class TestLineSearchMethods(unittest.TestCase):
             "Objective function values of smothed corners triangles function",
             obj_values_gd,
             obj_values_newton,
+            "Gradient descent",
+            "Newton's method",
         )
 
 

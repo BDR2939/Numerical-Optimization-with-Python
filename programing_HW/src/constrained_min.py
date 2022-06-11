@@ -29,7 +29,10 @@ class InteriorPointMinimization:
         f_x_phi, g_x_phi, h_x_phi = self.phi(ineq_constraints, x)
         t = self.T
 
-        print(f"i = 0, x0 = {x}, f(x0) = {f_x}")
+        x_s = [x0]
+        obj_values = [f_x]
+        outer_x_s = [x0]
+        outer_obj_values = [f_x]
 
         f_x = t * f_x + f_x_phi
         g_x = t * g_x + g_x_phi
@@ -53,24 +56,18 @@ class InteriorPointMinimization:
             x_prev = x
             f_prev = f_x
 
-            x_s = [x0]
-            obj_values = [f_x]
-
             inner_iter = 0
             while inner_iter < max_iter_inner:
 
                 if inner_iter != 0 and sum(abs(x - x_prev)) < param_tol:
-                    # return x, f_x, x_s, obj_values, True
                     break
 
                 p = np.linalg.solve(block_matrix, eq_vec)[: len(x)]
                 _lambda = np.matmul(p.transpose(), np.matmul(h_x, p)) ** 0.5
                 if 0.5 * (_lambda**2) < obj_tol:
-                    # return x, f_x, x_s, obj_values, True
                     break
 
                 if inner_iter != 0 and (f_prev - f_x < obj_tol):
-                    # return x, f_x, x_s, obj_values, True
                     break
 
                 if step_len == "wolfe":
@@ -86,27 +83,26 @@ class InteriorPointMinimization:
                 f_x, g_x, h_x = func(x, True)
                 f_x_phi, g_x_phi, h_x_phi = self.phi(ineq_constraints, x)
 
-                print(
-                    f"i = {inner_iter + 1}, x{inner_iter + 1} = {x}, f(x{inner_iter + 1}) = {f_x}"
-                )
+                x_s.append(x)
+                obj_values.append(f_x)
 
                 f_x = t * f_x + f_x_phi
                 g_x = t * g_x + g_x_phi
                 h_x = t * h_x + h_x_phi
 
-                x_s.append(x)
-                obj_values.append(f_x)
-
                 inner_iter += 1
 
-            # return x, f_x, x_s, obj_values, False
+            outer_x_s.append(x)
+            outer_obj_values.append((f_x - f_x_phi) / t)
 
             if len(ineq_constraints) / t < epsilon:
-                return
+                return x_s, obj_values, outer_x_s, outer_obj_values
 
             t = self.MU * t
 
             outer_iter += 1
+
+        return x_s, obj_values, outer_x_s, outer_obj_values
 
     def __wolfe(self, f, p, x) -> int:
         alpha = 1
