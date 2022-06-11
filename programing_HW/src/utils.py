@@ -2,6 +2,7 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import matplotlib.pyplot as plt
+import warnings
 
 
 def plot_contours(f, title, xy_gd=None, xy_newton=None):
@@ -127,28 +128,31 @@ def plot_feasible_set_2d(path_points):
 
 
 def plot_feasible_set_3d(path_points):
-    fig = plt.figure()
-    ax = Axes3D(fig)
-    x = [1, 0, 0]
-    y = [0, 1, 0]
-    z = [0, 0, 1]
-    verts = [list(zip(x, y, z))]
-    poly_3d_collection = Poly3DCollection(verts, alpha=0.5, edgecolors="k")
-    ax.add_collection3d(poly_3d_collection)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
 
-    if path_points is not None:
-        x_path = [path_points[i][0] for i in range(len(path_points))]
-        y_path = [path_points[i][1] for i in range(len(path_points))]
-        z_path = [path_points[i][2] for i in range(len(path_points))]
+        fig = plt.figure()
+        ax = Axes3D(fig)
+        x = [1, 0, 0]
+        y = [0, 1, 0]
+        z = [0, 0, 1]
+        verts = [list(zip(x, y, z))]
+        poly_3d_collection = Poly3DCollection(verts, alpha=0.5, edgecolors="k")
+        ax.add_collection3d(poly_3d_collection)
 
-    ax.plot(
-        x_path,
-        y_path,
-        z_path,
-        label="algorithm's path",
-        color="k",
-        marker=".",
-        linestyle="--",
-    )
+        if path_points is not None:
+            x_path = [path_points[i][0] for i in range(len(path_points))]
+            y_path = [path_points[i][1] for i in range(len(path_points))]
+            z_path = [path_points[i][2] for i in range(len(path_points))]
 
-    plt.show()
+        ax.plot(
+            x_path,
+            y_path,
+            z_path,
+            label="algorithm's path",
+            color="k",
+            marker=".",
+            linestyle="--",
+        )
+
+        plt.show()

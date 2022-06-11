@@ -1,12 +1,10 @@
 import sys
-from token import LPAR
 
 # sys.path.append("C:/Projects/HW/Numerical-Optimization-with-Python")
 sys.path.append("/Users/ronibendom/Master/Numerical Optimization with Python/")
 
 from programing_HW.src.constrained_min import InteriorPointMinimization
 from programing_HW.src.utils import (
-    plot_contours,
     plot_iterations,
     plot_feasible_set_2d,
     plot_feasible_set_3d,
@@ -55,16 +53,16 @@ class TestInteriorPointMethod(unittest.TestCase):
         print(f"Point of convergence: {x_s[-1]}")
         print(f"Objective value at point of convergence: {qp(x_s[-1], False)[0]}")
         print(
-            f"-x <= 0 value at point of convergence: {ineq_constraint_1_1(x_s[-1], False)[0]}"
+            f"-x value at point of convergence: {ineq_constraint_1_1(x_s[-1], False)[0]}"
         )
         print(
-            f"-y <= 0 value at point of convergence: {ineq_constraint_1_2(x_s[-1], False)[0]}"
+            f"-y value at point of convergence: {ineq_constraint_1_2(x_s[-1], False)[0]}"
         )
         print(
-            f"-z <= 0 value at point of convergence: {ineq_constraint_1_3(x_s[-1], False)[0]}"
+            f"-z value at point of convergence: {ineq_constraint_1_3(x_s[-1], False)[0]}"
         )
         print(
-            f"x + y + z = 1 value at point of convergence: {x_s[-1][0] + x_s[-1][1] + x_s[-1][2]}"
+            f"x + y + z value at point of convergence: {x_s[-1][0] + x_s[-1][1] + x_s[-1][2]}"
         )
 
         plot_iterations(
@@ -98,18 +96,20 @@ class TestInteriorPointMethod(unittest.TestCase):
         )
 
         print(f"Point of convergence: {x_s[-1]}")
-        print(f"Objective value at point of convergence: {lp(x_s[-1], False)[0]}")
         print(
-            f"-y -x +1 <= 0 value at point of convergence: {ineq_constraint_2_1(x_s[-1], False)[0]}"
+            f"Objective value at point of convergence: {lp(x_s[-1], False)[0]} (minimized over -x-y)"
         )
         print(
-            f"y - 1 <= 0 value at point of convergence: {ineq_constraint_2_2(x_s[-1], False)[0]}"
+            f"-y -x +1 value at point of convergence: {ineq_constraint_2_1(x_s[-1], False)[0]}"
         )
         print(
-            f"x - 2 <= 0 value at point of convergence: {ineq_constraint_2_3(x_s[-1], False)[0]}"
+            f"y - 1 value at point of convergence: {ineq_constraint_2_2(x_s[-1], False)[0]}"
         )
         print(
-            f"-y <= 0 value at point of convergence: {ineq_constraint_2_4(x_s[-1], False)[0]}"
+            f"x - 2 value at point of convergence: {ineq_constraint_2_3(x_s[-1], False)[0]}"
+        )
+        print(
+            f"-y value at point of convergence: {ineq_constraint_2_4(x_s[-1], False)[0]}"
         )
 
         plot_feasible_set_2d(x_s)
